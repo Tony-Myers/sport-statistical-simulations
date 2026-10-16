@@ -1,0 +1,61 @@
+/* ---------- bundled fonts (SIL Open Font License; see assets/fonts/OFL-LICENCES.txt) ---------- */
+@font-face { font-family: "Atkinson Hyperlegible"; font-style: normal; font-weight: 400; font-display: swap; src: url("fonts/atkinson-hyperlegible-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Atkinson Hyperlegible"; font-style: italic; font-weight: 400; font-display: swap; src: url("fonts/atkinson-hyperlegible-latin-400-italic.woff2") format("woff2"); }
+@font-face { font-family: "Atkinson Hyperlegible"; font-style: normal; font-weight: 700; font-display: swap; src: url("fonts/atkinson-hyperlegible-latin-700-normal.woff2") format("woff2"); }
+@font-face { font-family: "Atkinson Hyperlegible"; font-style: italic; font-weight: 700; font-display: swap; src: url("fonts/atkinson-hyperlegible-latin-700-italic.woff2") format("woff2"); }
+@font-face { font-family: "Barlow Condensed"; font-style: normal; font-weight: 600; font-display: swap; src: url("fonts/barlow-condensed-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "Barlow Condensed"; font-style: normal; font-weight: 700; font-display: swap; src: url("fonts/barlow-condensed-latin-700-normal.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Mono"; font-style: normal; font-weight: 400; font-display: swap; src: url("fonts/ibm-plex-mono-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Mono"; font-style: normal; font-weight: 500; font-display: swap; src: url("fonts/ibm-plex-mono-latin-500-normal.woff2") format("woff2"); }
+
+/* ---------- topic photograph: sits beside the introduction, cut on a diagonal, faded into the page ---------- */
+.photo { --cut: 64px; margin: 0; min-width: 0; }
+.photo .frame { position: relative; height: clamp(220px, 23vw, 290px); }
+.photo img {
+  display: block; width: 100%; height: 100%; object-fit: cover; object-position: var(--focus, 50% 50%);
+  clip-path: polygon(var(--cut) 0, 100% 0, 100% 100%, 0 100%);
+  -webkit-mask-image: linear-gradient(to right, #000 58%, transparent 100%), linear-gradient(to bottom, #000 62%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to right, #000 58%, transparent 100%), linear-gradient(to bottom, #000 62%, transparent 100%);
+  mask-composite: intersect;
+}
+/* a thin accent stripe parallel to the cut */
+.photo .frame::before {
+  content: ""; position: absolute; top: 0; bottom: 0; left: -16px; right: 0; background: var(--accent);
+  clip-path: polygon(var(--cut) 0, calc(var(--cut) + 6px) 0, 6px 100%, 0 100%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 45%, transparent 95%); mask-image: linear-gradient(to bottom, #000 45%, transparent 95%);
+}
+.photo figcaption { font-size: .82rem; line-height: 1.4; color: var(--muted); margin-top: 4px; padding-left: calc(var(--cut) * .5); max-width: 46ch; }
+
+@media (min-width: 900px) {
+  .intro.has-photo { max-width: none; display: grid; grid-template-columns: minmax(0, 66ch) minmax(280px, 1fr); column-gap: 36px; align-items: start; }
+  .intro.has-photo > * { grid-column: 1; }
+  .intro.has-photo > .photo { grid-column: 2; grid-row: 1 / span 6; margin-top: 6px; }
+}
+@media (max-width: 899.98px) {
+  .photo { --cut: 26px; margin: 4px 0 14px; }
+  .photo .frame { height: clamp(150px, 40vw, 230px); }
+  .photo .frame::before { display: none; }
+  .photo img {
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--cut)), 0 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 7%, #000 93%, transparent 100%); -webkit-mask-composite: source-over;
+    mask-image: linear-gradient(to right, transparent 0, #000 7%, #000 93%, transparent 100%); mask-composite: add;
+  }
+  .photo figcaption { padding-left: 0; }
+}
+
+/* ---------- landing-page strip: slanted panels, ends faded ---------- */
+.photo-strip { --k: 46px; display: flex; height: clamp(140px, 19vw, 230px); margin: 28px 0 6px;
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 9%, #000 91%, transparent 100%); mask-image: linear-gradient(to right, transparent 0, #000 9%, #000 91%, transparent 100%); }
+.photo-strip img { flex: 1 1 0; min-width: 0; height: 100%; object-fit: cover; object-position: var(--focus, 50% 50%); display: block;
+  clip-path: polygon(var(--k) 0, 100% 0, calc(100% - var(--k)) 100%, 0 100%); margin-right: calc(10px - var(--k)); }
+.photo-strip img:last-child { margin-right: 0; }
+@media (max-width: 640px) { .photo-strip { --k: 26px; } .photo-strip img:nth-child(n+4) { display: none; } }
+
+/* photographs a little quieter on a dark page */
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .photo img, :root:not([data-theme="light"]) .photo-strip img { filter: brightness(.86) saturate(.92); } }
+:root[data-theme="dark"] .photo img, :root[data-theme="dark"] .photo-strip img { filter: brightness(.86) saturate(.92); }
+@media print { .photo, .photo-strip { display: none; } }
+
+
+.chapter-note { margin-top: 14px; color: var(--muted); font-size: .85rem; }
